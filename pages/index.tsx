@@ -80,9 +80,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-5xl mx-auto p-6 sm:p-8">
-        {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
-          <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight">
+          <h1 className="text-2xl font-extrabold text-gray-800 tracking-tight">
             Task Dashboard
           </h1>
           <div className="flex gap-4 items-center">
@@ -104,8 +103,6 @@ export default function Home() {
             </SignedOut>
           </div>
         </div>
-
-        {/* Welcome Message */}
         <p className="text-lg text-gray-600 mb-8">
           Welcome, <span className="font-semibold">{user.firstName}</span>!
         </p>

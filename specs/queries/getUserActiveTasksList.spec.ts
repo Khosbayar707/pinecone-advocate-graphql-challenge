@@ -13,30 +13,32 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Get User Active Tasks Query", () => {
-  const userId = "user-active-test";
-  const unique = Date.now();
+describe("getUserActiveTasks resolver", () => {
+  const testUserId = "test-user-active";
+  const uniqueId = Date.now();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await addTask(
       {},
       {
-        taskName: "Active Task " + unique,
+        taskName: `Active Task ${uniqueId}`,
         description: "This is an active task and should show up",
         priority: 3,
-        userId,
+        userId: testUserId,
         isDone: false,
       }
     );
   });
 
-  it("should return only active (isDone: false) tasks", async () => {
-    const tasks = await getUserActiveTasks({}, { userId });
+  it("returns only tasks marked as active (isDone: false) for a given user", async () => {
+    const tasks = await getUserActiveTasks({}, { userId: testUserId });
+
     expect(Array.isArray(tasks)).toBe(true);
     expect(tasks.length).toBeGreaterThan(0);
-    tasks.forEach((task) => {
-      expect(task.userId).toBe(userId);
+
+    for (const task of tasks) {
+      expect(task.userId).toBe(testUserId);
       expect(task.isDone).toBe(false);
-    });
+    }
   });
 });

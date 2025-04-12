@@ -44,7 +44,7 @@ const UPDATE_TASK = gql`
 
 export default function UpdateTaskPage() {
   const searchParams = useSearchParams();
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const taskId = searchParams.get("taskId");
   const userId = searchParams.get("userId");
 
@@ -101,7 +101,7 @@ export default function UpdateTaskPage() {
           tags: Array.isArray(form.tags) ? form.tags : [],
         },
       });
-      router.push("/"); // Redirect to homepage on success
+      router.push("/");
     } catch (err: any) {
       console.error("Update task error:", err);
       const message =
@@ -205,7 +205,6 @@ export default function UpdateTaskPage() {
         </form>
       </div>
 
-      {/* Custom CSS for additional styling */}
       <style jsx>{`
         textarea {
           min-height: 100px;

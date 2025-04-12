@@ -13,9 +13,9 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Update Task Mutation", () => {
+describe("updateTask resolver", () => {
   const userId = "test-user";
-  const unique = Date.now();
+  const uniqueId = Date.now();
   let createdTask: any;
 
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe("Update Task Mutation", () => {
     createdTask = await addTask(
       {},
       {
-        taskName: "Old Task " + unique,
+        taskName: `Old Task ${uniqueId}`,
         description: "Old description for update test",
         priority: 2,
         userId,
@@ -32,23 +32,23 @@ describe("Update Task Mutation", () => {
     );
   });
 
-  it("should update taskName and isDone", async () => {
-    const unique = Date.now() + Math.floor(Math.random() * 1000);
+  it("updates taskName and isDone", async () => {
+    const newId = Date.now() + Math.floor(Math.random() * 1000);
     const updated = await updateTask(
       {},
       {
         taskId: createdTask._id,
         userId,
-        taskName: "Updated Task " + unique,
+        taskName: `Updated Task ${newId}`,
         isDone: true,
       }
     );
 
-    expect(updated.taskName).toBe("Updated Task " + unique);
+    expect(updated.taskName).toBe(`Updated Task ${newId}`);
     expect(updated.isDone).toBe(true);
   });
 
-  it("should throw unauthorized if userId doesn't match", async () => {
+  it("throws 'Unauthorized' if userId does not match", async () => {
     await expect(
       updateTask(
         {},
@@ -61,7 +61,7 @@ describe("Update Task Mutation", () => {
     ).rejects.toThrow("Unauthorized.");
   });
 
-  it("should throw error if priority is out of range", async () => {
+  it("throws error if priority is out of range", async () => {
     await expect(
       updateTask(
         {},
@@ -74,7 +74,7 @@ describe("Update Task Mutation", () => {
     ).rejects.toThrow("Priority must be between 1 and 5.");
   });
 
-  it("should not throw if priority is undefined", async () => {
+  it("does not throw if priority is undefined", async () => {
     const result = await updateTask(
       {},
       {

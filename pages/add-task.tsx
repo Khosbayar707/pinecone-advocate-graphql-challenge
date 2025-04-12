@@ -70,7 +70,7 @@ export default function AddTask() {
             userId: user.id,
           },
         });
-        router.push("/"); // Redirect to homepage on success
+        router.push("/");
       } catch (err: any) {
         const message =
           err?.graphQLErrors?.[0]?.message ||
@@ -179,7 +179,6 @@ export default function AddTask() {
         </form>
       </div>
 
-      {/* Custom CSS for additional styling */}
       <style jsx>{`
         textarea {
           min-height: 100px;

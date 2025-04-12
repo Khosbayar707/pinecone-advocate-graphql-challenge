@@ -22,7 +22,7 @@ describe("Update Task Mutation", () => {
     createdTask = await addTask(
       {},
       {
-        taskName: "Old Task " + unique,
+        taskName: `Old Task ${unique}`,
         description: "Old description for update test",
         priority: 2,
         userId,
@@ -30,22 +30,22 @@ describe("Update Task Mutation", () => {
     );
   });
 
-  it("should update taskName and isDone", async () => {
+  it("updates taskName and isDone", async () => {
     const updated = await updateTask(
       {},
       {
         taskId: createdTask._id,
         userId,
-        taskName: "Updated Task " + unique,
+        taskName: `Updated Task ${unique}`,
         isDone: true,
       }
     );
 
-    expect(updated.taskName).toBe("Updated Task " + unique);
+    expect(updated.taskName).toBe(`Updated Task ${unique}`);
     expect(updated.isDone).toBe(true);
   });
 
-  it("should throw 'Task not found' if taskId does not exist", async () => {
+  it("throws 'Task not found' if taskId is invalid", async () => {
     await expect(
       updateTask(
         {},
@@ -58,7 +58,7 @@ describe("Update Task Mutation", () => {
     ).rejects.toThrow("Task not found.");
   });
 
-  it("should throw unauthorized if userId doesn't match", async () => {
+  it("throws 'Unauthorized' if userId doesn't match", async () => {
     await expect(
       updateTask(
         {},
@@ -71,7 +71,7 @@ describe("Update Task Mutation", () => {
     ).rejects.toThrow("Unauthorized.");
   });
 
-  it("should throw error if priority is out of range", async () => {
+  it("throws error if priority is out of range", async () => {
     await expect(
       updateTask(
         {},
@@ -84,7 +84,7 @@ describe("Update Task Mutation", () => {
     ).rejects.toThrow("Priority must be between 1 and 5.");
   });
 
-  it("should not throw if priority is undefined", async () => {
+  it("updates task when priority is undefined", async () => {
     const updated = await updateTask(
       {},
       {
@@ -97,7 +97,7 @@ describe("Update Task Mutation", () => {
     expect(updated.taskName).toBe("Updated Again");
   });
 
-  it("should catch validation error in addTask (coverage)", async () => {
+  it("catches Mongoose validation error (too short description)", async () => {
     const badInput = {
       taskName: "SameText",
       description: "short",
@@ -110,7 +110,7 @@ describe("Update Task Mutation", () => {
     );
   });
 
-  it("should catch and throw validation error (for catch block coverage)", async () => {
+  it("throws custom validation error (desc same as name)", async () => {
     const input = {
       taskName: "SameText10",
       description: "SameText10",
@@ -123,7 +123,7 @@ describe("Update Task Mutation", () => {
     );
   });
 
-  it("should throw generic error if no message is provided", async () => {
+  it("throws generic error when no message is provided", async () => {
     const input = {
       taskName: "CatchErrorTest",
       description: "Valid long description here",

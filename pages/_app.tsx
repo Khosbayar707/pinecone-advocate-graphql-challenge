@@ -1,7 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
-
 import "@/styles/globals.css";
-
 import type { AppProps } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
 import client from "@/libs/apollo-connection";
